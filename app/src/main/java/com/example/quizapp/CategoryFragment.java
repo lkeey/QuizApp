@@ -4,23 +4,21 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CategoryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CategoryFragment extends Fragment {
 
     private GridView categoryView;
-    private List<>
+    private List<CategoryModel> categoryList = new ArrayList<>();
 
     public CategoryFragment() {
         // Required empty public constructor
@@ -35,6 +33,19 @@ public class CategoryFragment extends Fragment {
 
         categoryView = view.findViewById(R.id.gridCategory);
 
+        loadCategories();
+
+        CategoryAdapter adapter = new CategoryAdapter(categoryList);
+        categoryView.setAdapter(adapter);
+
         return view;
+    }
+
+    private void loadCategories() {
+        categoryList.clear();
+        categoryList.add(new CategoryModel("1", "GK", 20));
+        categoryList.add(new CategoryModel("1", "GK", 20));
+        categoryList.add(new CategoryModel("3", "GKya", 200));
+
     }
 }
