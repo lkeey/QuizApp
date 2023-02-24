@@ -3,10 +3,12 @@ package com.example.quizapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,10 +25,11 @@ public class SignUpActivity extends AppCompatActivity {
 
     private EditText userName, userEmail, userPassword, userConfirmedPassword;
     private Button btnSignUp;
-    private TextView lblHaveAcc;
+    private TextView lblHaveAcc, dialogText;
     private ImageView imageBack;
     private FirebaseAuth mAuth;
     private String nameString, emailString, passwordString, passwordConfirmedString;
+    private Dialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,14 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp = findViewById(R.id.btnSignUp);
         lblHaveAcc = findViewById(R.id.labelHaveAccount);
         imageBack = findViewById(R.id.imageBack);
+
+        progressBar = new Dialog(SignUpActivity.this);
+        progressBar.setContentView(R.layout.dialog_layout);
+        progressBar.setCancelable(false);
+        progressBar.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        dialogText = progressBar.findViewById(R.id.dialogText);
+        dialogText.setText("Registering");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -94,6 +105,9 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void signUpUser() {
+
+        progressBar.show();
+
         mAuth.createUserWithEmailAndPassword(emailString, nameString)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -103,14 +117,19 @@ public class SignUpActivity extends AppCompatActivity {
 
                             Toast.makeText(SignUpActivity.this, "Sign Up Was Successfully", Toast.LENGTH_SHORT).show();
 
+                            progressBar.dismiss();
+
                             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                             startActivity(intent);
                             SignUpActivity.this.finish();
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+//                            Toast.makeText(SignUpActivity.this, task.getException().getMessage(),
+//                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "Sign Up Failed",
                                     Toast.LENGTH_SHORT).show();
+                            progressBar.dismiss();
                         }
                     }
                 });
