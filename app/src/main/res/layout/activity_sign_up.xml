@@ -17,7 +17,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/ic_back"/>
 
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -48,14 +47,35 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/editTextEmail"
+        android:id="@+id/editTextName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:drawableStart="@drawable/ic_name"
+        android:drawableTint="@color/design_default_color_primary"
+        android:drawablePadding="16dp"
+        android:textColor="@color/design_default_color_primary"
+        android:hint="Write Name"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
+
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:drawableStart="@drawable/ic_account"
         android:drawableTint="@color/design_default_color_primary"
         android:drawablePadding="16dp"
@@ -65,16 +85,16 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
+        app:layout_constraintTop_toBottomOf="@id/editTextName"/>
 
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:layout_marginEnd="32dp"
         android:drawableStart="@drawable/ic_password"
         android:drawableTint="@color/design_default_color_primary"
@@ -88,57 +108,54 @@
         app:layout_constraintTop_toBottomOf="@id/editTextEmail"/>
 
 
-        <Button
-            android:id="@+id/btnLogging"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="32dp"
-            android:text="Login"
-            android:elevation="18sp"
-            android:translationZ="3dp"
-            android:background="@drawable/round_corner_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editTextPassword"/>
-
-        <TextView
-            android:id="@+id/labelForgot"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="I Forgot Password"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:textColor="@color/design_default_color_primary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnLogging"/>
-
-
-    <TextView
-        android:id="@+id/labelAccount"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/editTextConfirmedPassword"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="48dp"
-        android:text="Do not have an account?"
-        android:textColor="@color/purple_500"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:drawableStart="@drawable/ic_password"
+        android:drawableTint="@color/design_default_color_primary"
+        android:drawablePadding="16dp"
+        android:textColor="@color/design_default_color_primary"
+        android:hint="Confirm Password"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/labelForgot"/>
+        app:layout_constraintTop_toBottomOf="@id/editTextPassword"/>
+
+
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:text="Sign Up"
+        android:elevation="18sp"
+        android:translationZ="3dp"
+        android:background="@drawable/round_corner_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextConfirmedPassword"/>
 
     <TextView
-        android:id="@+id/labelSignUp"
-        android:layout_width="wrap_content"
+        android:id="@+id/labelHaveAccount"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="48dp"
-        android:text="SIGN UP"
+        android:layout_marginTop="18dp"
+        android:text="I have an account"
         android:textSize="18sp"
-        android:textColor="@color/purple_500"
-        app:layout_constraintStart_toEndOf="@+id/labelAccount"
-        app:layout_constraintTop_toBottomOf="@id/labelForgot"/>
+        android:gravity="center"
+        android:textColor="@color/design_default_color_primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSignUp"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
