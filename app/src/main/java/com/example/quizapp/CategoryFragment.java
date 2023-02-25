@@ -43,9 +43,12 @@ public class CategoryFragment extends Fragment {
 
     private void loadCategories() {
         categoryList.clear();
-        categoryList.add(new CategoryModel("1", "GK", 20));
-        categoryList.add(new CategoryModel("1", "GK", 20));
-        categoryList.add(new CategoryModel("3", "GKya", 200));
+
+//        categoryList.add(new CategoryModel("1", "GK", 20));
+//        categoryList.add(new CategoryModel("1", "GK", 20));
+//        categoryList.add(new CategoryModel("3", "GKya", 200));
+
+
 
     }
 }

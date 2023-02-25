@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.nav_account:
-                    Toast.makeText(MainActivity.this, "HI", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "ACCOUNT", Toast.LENGTH_SHORT).show();
                     setFragment(new AccountFragment());
                     return true;
 
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setFragment(Fragment fragment) {
-        Toast.makeText(this, "UPDATE", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "UPDATE", Toast.LENGTH_SHORT).show();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(mainFrame.getId(), fragment);
         transaction.commit();
