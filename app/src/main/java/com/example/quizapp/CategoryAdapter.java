@@ -1,5 +1,8 @@
 package com.example.quizapp;
 
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +14,12 @@ import java.util.List;
 public class CategoryAdapter extends BaseAdapter {
 
     private List<CategoryModel> categoryModelList;
+    private Context context;
+    private static final String TAG = "AdapterCategory";
 
-    public CategoryAdapter(List<CategoryModel> categoryModelList) {
+    public CategoryAdapter(List<CategoryModel> categoryModelList, Context context) {
         this.categoryModelList = categoryModelList;
+        this.context = context;
     }
 
     @Override
@@ -40,6 +46,19 @@ public class CategoryAdapter extends BaseAdapter {
         } else {
             myView = view;
         }
+
+        myView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(context, TestActivity.class);
+                    intent.putExtra("categoryIndex", position);
+                    context.startActivity(intent);
+                } catch (Exception e) {
+                    Log.i(TAG, e.getMessage());
+                }
+            }
+        });
 
         TextView categoryName = myView.findViewById(R.id.categoryName);
         TextView noOfTests = myView.findViewById(R.id.noOfTests);

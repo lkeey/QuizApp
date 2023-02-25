@@ -18,7 +18,7 @@ import java.util.List;
 public class CategoryFragment extends Fragment {
 
     private GridView categoryView;
-    private List<CategoryModel> categoryList = new ArrayList<>();
+    public static List<CategoryModel> categoryList = new ArrayList<>();
 
     public CategoryFragment() {
         // Required empty public constructor
@@ -35,7 +35,7 @@ public class CategoryFragment extends Fragment {
 
         loadCategories();
 
-        CategoryAdapter adapter = new CategoryAdapter(categoryList);
+        CategoryAdapter adapter = new CategoryAdapter(categoryList, getActivity());
         categoryView.setAdapter(adapter);
 
         return view;
