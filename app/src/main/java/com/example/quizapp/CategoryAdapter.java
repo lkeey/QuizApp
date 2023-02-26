@@ -51,8 +51,11 @@ public class CategoryAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 try {
+
+                    DbQuery.selectedCategoryIndex = position;
+                    Log.i(TAG, String.valueOf(position));
                     Intent intent = new Intent(context, TestActivity.class);
-                    intent.putExtra("categoryIndex", position);
+
                     context.startActivity(intent);
                 } catch (Exception e) {
                     Log.i(TAG, e.getMessage());

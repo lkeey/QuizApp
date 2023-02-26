@@ -1,6 +1,8 @@
 package com.example.quizapp;
 
 import android.util.ArrayMap;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -8,6 +10,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -22,6 +25,9 @@ public class DbQuery {
 
     public static FirebaseFirestore firestore;
     public static List<CategoryModel> listCategories = new ArrayList<>();
+    public static int selectedCategoryIndex = 0;
+    public static List<TestModel> testModelList = new ArrayList<>();
+    public static final String TAG = "QueryDB";
 
     public static void createUserData(String email, String name, CompleteListener listener) {
         Map<String, Object> userData = new ArrayMap<>();
@@ -92,4 +98,43 @@ public class DbQuery {
                     }
                 });
     }
+
+    public static void loadTestData(CompleteListener listener) {
+        testModelList.clear();
+        Log.i(TAG, "BEGIN");
+
+        firestore.collection("QUIZ").document(listCategories.get(selectedCategoryIndex).getDocID())
+                .collection("TESTS_LIST").document("TESTS_INFO")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Log.i(TAG, "BEGIN2");
+                        int noOfTests = listCategories.get(selectedCategoryIndex).getNoOfTests();
+
+                        for(int i=1; i <= noOfTests; i++) {
+                            Log.i(TAG, "BEGIN3");
+                            Log.i(TAG, String.valueOf(selectedCategoryIndex) + " " + String.valueOf(i));
+                            Log.i(TAG, documentSnapshot.getString("TEST" + String.valueOf(i) + "_ID"));
+
+                            testModelList.add(new TestModel(
+                                    documentSnapshot.getString("TEST" + String.valueOf(i) + "_ID"),
+                                    0,
+                                    documentSnapshot.getLong("TEST" + String.valueOf(i) + "_TIME").intValue()
+                            ));
+                            Log.i(TAG, "BEGIN4");
+                        }
+
+                        listener.OnSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.OnFailure();
+                        Log.i(TAG, e.getMessage());
+                    }
+                });
+    }
+
 }
