@@ -31,7 +31,7 @@ public class TestActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setTitle(CategoryFragment.categoryList.get(categoryIndex).getName());
+        getSupportActionBar().setTitle(DbQuery.listCategories.get(categoryIndex).getName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);

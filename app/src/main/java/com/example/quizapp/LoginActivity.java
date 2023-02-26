@@ -142,11 +142,54 @@ public class LoginActivity extends AppCompatActivity {
 
                             FirebaseUser user = mAuth.getCurrentUser();
 
-                            progressBar.dismiss();
+                            if(task.getResult().getAdditionalUserInfo().isNewUser()) {
+                                DbQuery.createUserData(user.getEmail().trim(), user.getDisplayName(), new CompleteListener() {
+                                    @Override
+                                    public void OnSuccess() {
 
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            LoginActivity.this.finish();
+                                        DbQuery.loadCategories(new CompleteListener() {
+                                            @Override
+                                            public void OnSuccess() {
+                                                progressBar.dismiss();
+
+                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                startActivity(intent);
+                                                LoginActivity.this.finish();
+                                            }
+
+                                            @Override
+                                            public void OnFailure() {
+                                                Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                                progressBar.dismiss();
+                                            }
+                                        });
+
+                                    }
+
+                                    @Override
+                                    public void OnFailure() {
+                                        Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                        progressBar.dismiss();
+                                    }
+                                });
+                            } else {
+                                DbQuery.loadCategories(new CompleteListener() {
+                                    @Override
+                                    public void OnSuccess() {
+                                        progressBar.dismiss();
+
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        LoginActivity.this.finish();
+                                    }
+
+                                    @Override
+                                    public void OnFailure() {
+                                        Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                        progressBar.dismiss();
+                                    }
+                                });
+                            }
 
                         } else {
                             Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -183,11 +226,24 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Authentication was successfully",
                                     Toast.LENGTH_SHORT).show();
 
-                            progressBar.dismiss();
+                            DbQuery.loadCategories(new CompleteListener() {
+                                @Override
+                                public void OnSuccess() {
+                                    progressBar.dismiss();
 
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            LoginActivity.this.finish();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    LoginActivity.this.finish();
+                                }
+
+                                @Override
+                                public void OnFailure() {
+                                    Toast.makeText(LoginActivity.this, "Something went wrong",
+                                            Toast.LENGTH_SHORT).show();
+
+                                    progressBar.dismiss();
+                                }
+                            });
 
                         } else {
                             // If sign in fails, display a message to the user.

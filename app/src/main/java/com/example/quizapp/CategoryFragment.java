@@ -18,7 +18,7 @@ import java.util.List;
 public class CategoryFragment extends Fragment {
 
     private GridView categoryView;
-    public static List<CategoryModel> categoryList = new ArrayList<>();
+//    public static List<CategoryModel> categoryList = new ArrayList<>();
 
     public CategoryFragment() {
         // Required empty public constructor
@@ -33,22 +33,20 @@ public class CategoryFragment extends Fragment {
 
         categoryView = view.findViewById(R.id.gridCategory);
 
-        loadCategories();
+        //loadCategories();
 
-        CategoryAdapter adapter = new CategoryAdapter(categoryList, getActivity());
+        CategoryAdapter adapter = new CategoryAdapter(DbQuery.listCategories, getActivity());
         categoryView.setAdapter(adapter);
 
         return view;
     }
 
     private void loadCategories() {
-        categoryList.clear();
+//        categoryList.clear();
 
 //        categoryList.add(new CategoryModel("1", "GK", 20));
 //        categoryList.add(new CategoryModel("1", "GK", 20));
 //        categoryList.add(new CategoryModel("3", "GKya", 200));
-
-
 
     }
 }
