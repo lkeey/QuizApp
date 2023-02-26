@@ -122,7 +122,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
                 setFragment(new CategoryFragment());
-
+                bottomNavigationView.setSelectedItemId(R.id.nav_home);
+                drawerLayout.closeDrawers();
                 return true;
             }
         });
@@ -131,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
                 setFragment(new LeaderBordFragment());
-
+                bottomNavigationView.setSelectedItemId(R.id.nav_leader);
+                drawerLayout.closeDrawers();
                 return true;
             }
         });
@@ -140,7 +142,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
                 setFragment(new AccountFragment());
-
+                bottomNavigationView.setSelectedItemId(R.id.nav_account);
+                drawerLayout.closeDrawers();
                 return true;
             }
         });
@@ -172,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
-        Toast.makeText(this, "HEY6", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "HEY6", Toast.LENGTH_SHORT).show();
 
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
@@ -181,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        Toast.makeText(this, "HEY7", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "HEY7", Toast.LENGTH_SHORT).show();
 
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggles
@@ -190,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(this, "HEY8", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "HEY8", Toast.LENGTH_SHORT).show();
         if (toggle.onOptionsItemSelected(item)) {
             Toast.makeText(this, "HEY", Toast.LENGTH_SHORT).show();
             return true;

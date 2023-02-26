@@ -56,7 +56,7 @@ public class TestActivity extends AppCompatActivity {
         DbQuery.loadTestData(new CompleteListener() {
             @Override
             public void OnSuccess() {
-                adapter = new TestAdapter(DbQuery.testModelList);
+                adapter = new TestAdapter(DbQuery.testModelList, TestActivity.this);
                 recyclerView.setAdapter(adapter);
 
                 progressBar.dismiss();

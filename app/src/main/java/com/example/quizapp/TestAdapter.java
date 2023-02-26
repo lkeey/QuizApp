@@ -1,5 +1,7 @@
 package com.example.quizapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +16,13 @@ import java.util.List;
 
 public class TestAdapter extends RecyclerView.Adapter<TestAdapter.TestHolder> {
 
-    private List<TestModel> testModelList;
     private static final String TAG = "AdapterTest";
+    private List<TestModel> testModelList;
+    private Context context;
 
-    public TestAdapter(List<TestModel> testModelList) {
+    public TestAdapter(List<TestModel> testModelList, Context context) {
         this.testModelList = testModelList;
+        this.context = context;
     }
 
     @NonNull
@@ -60,6 +64,21 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.TestHolder> {
             textPercent = itemView.findViewById(R.id.textPercent);
             progressBar = itemView.findViewById(R.id.progressBar);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                    Log.i(TAG, "BEGIN");
+                    Intent intent = new Intent(context, QuestionsActivity.class);
+                    Log.i(TAG, "BEGIN2");
+                    Log.i(TAG, context.toString());
+                    context.startActivity(intent);
+                    Log.i(TAG, "HEY");
+                    } catch (Exception e) {
+                        Log.i(TAG, e.getMessage());
+                    }
+                }
+            });
         }
 
         private void setData(int pos, int progress) {
