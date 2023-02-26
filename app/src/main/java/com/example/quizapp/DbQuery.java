@@ -23,11 +23,13 @@ import java.util.Map;
 
 public class DbQuery {
 
+    public static final String TAG = "QueryDB";
+
     public static FirebaseFirestore firestore;
     public static List<CategoryModel> listCategories = new ArrayList<>();
     public static int selectedCategoryIndex = 0;
     public static List<TestModel> testModelList = new ArrayList<>();
-    public static final String TAG = "QueryDB";
+    public static ProfileModel userProfile = new ProfileModel("NAME", null);
 
     public static void createUserData(String email, String name, CompleteListener listener) {
         Map<String, Object> userData = new ArrayMap<>();
@@ -58,7 +60,7 @@ public class DbQuery {
                 });
     }
 
-    public static void loadCategories(CompleteListener listener) {
+    private static void loadCategories(CompleteListener listener) {
         listCategories.clear();
 
         firestore.collection("QUIZ").get()
@@ -137,4 +139,37 @@ public class DbQuery {
                 });
     }
 
+    public static void getUserData(CompleteListener listener) {
+        firestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        userProfile.setName(documentSnapshot.getString("NAME"));
+                        userProfile.setEmail(documentSnapshot.getString("EMAIL_ID"));
+
+                        listener.OnSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.OnFailure();
+                    }
+                });
+    }
+
+    public static void loadData(CompleteListener listener) {
+        loadCategories(new CompleteListener() {
+            @Override
+            public void OnSuccess() {
+                getUserData(listener);
+            }
+
+            @Override
+            public void OnFailure() {
+                listener.OnFailure();
+            }
+        });
+    }
 }

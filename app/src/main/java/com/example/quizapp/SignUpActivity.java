@@ -122,7 +122,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 @Override
                                 public void OnSuccess() {
 
-                                    DbQuery.loadCategories(new CompleteListener() {
+                                    DbQuery.loadData(new CompleteListener() {
                                         @Override
                                         public void OnSuccess() {
                                             progressBar.dismiss();

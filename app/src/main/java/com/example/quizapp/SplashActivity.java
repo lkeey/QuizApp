@@ -47,7 +47,7 @@ public class SplashActivity extends AppCompatActivity {
 
             if (mAuth.getCurrentUser() != null) {
 
-                DbQuery.loadCategories(new CompleteListener() {
+                DbQuery.loadData(new CompleteListener() {
                     @Override
                     public void OnSuccess() {
                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
