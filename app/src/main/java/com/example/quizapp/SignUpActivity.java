@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -117,11 +118,23 @@ public class SignUpActivity extends AppCompatActivity {
 
                             Toast.makeText(SignUpActivity.this, "Sign Up Was Successfully", Toast.LENGTH_SHORT).show();
 
-                            progressBar.dismiss();
+                            DbQuery.createUserData(emailString, nameString, new CompleteListener(){
+                                @Override
+                                public void OnSuccess() {
+                                    progressBar.dismiss();
 
-                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            SignUpActivity.this.finish();
+                                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    SignUpActivity.this.finish();
+                                }
+
+                                @Override
+                                public void OnFailure() {
+                                    Toast.makeText(SignUpActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                    progressBar.dismiss();
+                                }
+                            });
+
 
                         } else {
                             // If sign in fails, display a message to the user.
