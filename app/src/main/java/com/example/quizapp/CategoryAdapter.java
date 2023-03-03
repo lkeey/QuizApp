@@ -55,7 +55,7 @@ public class CategoryAdapter extends BaseAdapter {
                     DbQuery.selectedCategoryIndex = position;
                     Log.i(TAG, String.valueOf(position));
                     Intent intent = new Intent(context, TestActivity.class);
-
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 } catch (Exception e) {
                     Log.i(TAG, e.getMessage());
