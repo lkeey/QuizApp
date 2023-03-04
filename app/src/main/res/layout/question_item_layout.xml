@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        android:gravity="center"
+        android:text="QUESTION N0"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:scrollbars="vertical"
+        android:background="@color/white"
+        android:inputType="textMultiLine"
+        android:elevation="5dp"
+        android:translationZ="3dp"/>
+
+    <Button
+        android:id="@+id/optionA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="OPTION A"
+        android:textSize="16sp"
+        android:background="@drawable/unselected_btn"
+        android:elevation="3dp"
+        android:translationZ="3dp"
+        />
+
+    <Button
+        android:id="@+id/optionB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="OPTION A"
+        android:textSize="16sp"
+        android:background="@drawable/unselected_btn"
+        android:elevation="3dp"
+        android:translationZ="3dp"
+        />
+
+    <Button
+        android:id="@+id/optionC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="OPTION A"
+        android:textSize="16sp"
+        android:background="@drawable/unselected_btn"
+        android:elevation="3dp"
+        android:translationZ="3dp"
+        />
+
+    <Button
+        android:id="@+id/optionD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="OPTION A"
+        android:textSize="16sp"
+        android:background="@drawable/unselected_btn"
+        android:elevation="3dp"
+        android:translationZ="3dp"
+        />
+
+</LinearLayout>
