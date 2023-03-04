@@ -64,21 +64,6 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.TestHolder> {
             textPercent = itemView.findViewById(R.id.textPercent);
             progressBar = itemView.findViewById(R.id.progressBar);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                    Log.i(TAG, "BEGIN");
-                    Intent intent = new Intent(context, QuestionsActivity.class);
-                    Log.i(TAG, "BEGIN2");
-                    Log.i(TAG, context.toString());
-                    context.startActivity(intent);
-                    Log.i(TAG, "HEY");
-                    } catch (Exception e) {
-                        Log.i(TAG, e.getMessage());
-                    }
-                }
-            });
         }
 
         private void setData(int pos, int progress) {
@@ -92,6 +77,24 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.TestHolder> {
 
             progressBar.setProgress(progress);
             Log.i(TAG, "setData4");
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        DbQuery.selectedTestIndex = pos;
+                        Intent intent = new Intent(context, StartTestActivity.class);
+
+                        Log.i(TAG, context.toString());
+                        Log.i(TAG, textNo.getText().toString());
+                        context.startActivity(intent);
+
+                    } catch (Exception e) {
+                        Log.i(TAG, e.getMessage());
+                    }
+                }
+            });
 
         }
     }

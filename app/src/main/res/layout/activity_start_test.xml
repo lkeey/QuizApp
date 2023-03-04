@@ -24,6 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
+        android:id="@+id/nameNO"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -85,6 +86,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/amountQuestions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5"
@@ -132,6 +134,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/totalScore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="100"
@@ -179,6 +182,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/amountTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="25 min"
@@ -210,6 +214,7 @@
 
 
     <ImageView
+        android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

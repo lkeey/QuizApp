@@ -28,8 +28,10 @@ public class DbQuery {
     public static FirebaseFirestore firestore;
     public static List<CategoryModel> listCategories = new ArrayList<>();
     public static int selectedCategoryIndex = 0;
+    public static int selectedTestIndex = 0;
     public static List<TestModel> testModelList = new ArrayList<>();
     public static ProfileModel userProfile = new ProfileModel("NAME", null);
+    public static List<QuestionModel> questionModelList = new ArrayList<>();
 
     public static void createUserData(String email, String name, CompleteListener listener) {
         Map<String, Object> userData = new ArrayMap<>();
@@ -171,5 +173,47 @@ public class DbQuery {
                 listener.OnFailure();
             }
         });
+    }
+
+    public static void loadQuestions(CompleteListener listener) {
+        questionModelList.clear();
+
+        firestore.collection("QUESTIONS")
+                .whereEqualTo("CATEGORY", listCategories.get(selectedCategoryIndex).getDocID())
+                .whereEqualTo("TEST", testModelList.get(selectedTestIndex).getTestId())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Log.i(TAG, "BEGIN");
+
+                        for (DocumentSnapshot document: queryDocumentSnapshots) {
+                            Log.i(TAG, document.getString("QUESTION"));
+
+                            questionModelList.add(
+                                    new QuestionModel(
+                                            document.getString("QUESTION"),
+                                            document.getString("A"),
+                                            document.getString("B"),
+                                            document.getString("C"),
+                                            document.getString("D"),
+                                            document.getLong("ANSWER").intValue()
+                                )
+                            );
+                        }
+                        Log.i(TAG, "OKEY");
+
+                        listener.OnSuccess();
+
+                        Log.i(TAG, "OKEY2");
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.OnFailure();
+                    }
+                });
     }
 }
