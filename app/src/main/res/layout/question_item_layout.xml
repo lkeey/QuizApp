@@ -22,48 +22,52 @@
         android:elevation="5dp"
         android:translationZ="3dp"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/optionA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:text="OPTION A"
+        android:textColor="@color/design_default_color_primary"
         android:textSize="16sp"
         android:background="@drawable/unselected_btn"
         android:elevation="3dp"
         android:translationZ="3dp"
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/optionB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="OPTION A"
+        android:text="OPTION B"
+        android:textColor="@color/design_default_color_primary"
         android:textSize="16sp"
         android:background="@drawable/unselected_btn"
         android:elevation="3dp"
         android:translationZ="3dp"
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/optionC"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="OPTION A"
+        android:text="OPTION C"
+        android:textColor="@color/design_default_color_primary"
         android:textSize="16sp"
         android:background="@drawable/unselected_btn"
         android:elevation="3dp"
         android:translationZ="3dp"
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/optionD"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="OPTION A"
+        android:text="OPTION D"
+        android:textColor="@color/design_default_color_primary"
         android:textSize="16sp"
         android:background="@drawable/unselected_btn"
         android:elevation="3dp"

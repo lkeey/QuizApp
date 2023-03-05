@@ -197,7 +197,8 @@ public class DbQuery {
                                             document.getString("B"),
                                             document.getString("C"),
                                             document.getString("D"),
-                                            document.getLong("ANSWER").intValue()
+                                            document.getLong("ANSWER").intValue(),
+                                            -1
                                 )
                             );
                         }

@@ -1,5 +1,9 @@
 package com.example.quizapp;
 
+import static com.example.quizapp.R.color.option_colors;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +18,11 @@ import java.util.List;
 public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ViewHolder> {
 
     private List<QuestionModel> listQuestions;
+    private Context context;
 
-    public QuestionsAdapter(List<QuestionModel> listQuestions) {
+    public QuestionsAdapter(List<QuestionModel> listQuestions, Context context) {
         this.listQuestions = listQuestions;
+        this.context = context;
     }
 
     @NonNull
@@ -40,7 +46,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView question;
-        private Button btnA, btnB, btnC, btnD;
+        private Button btnA, btnB, btnC, btnD, previousSelected;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -51,6 +57,8 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
             btnC = itemView.findViewById(R.id.optionC);
             btnD = itemView.findViewById(R.id.optionD);
 
+            previousSelected = null;
+
         }
 
         private void setData(final int position) {
@@ -60,6 +68,94 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
             btnB.setText(listQuestions.get(position).getOptionB());
             btnC.setText(listQuestions.get(position).getOptionC());
             btnD.setText(listQuestions.get(position).getOptionD());
+
+            setOption(btnA, 1, position);
+            setOption(btnB, 2, position);
+            setOption(btnC, 3, position);
+            setOption(btnD, 4, position);
+
+            btnA.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectOption(btnA, 1, position);
+
+                }
+            });
+
+            btnB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectOption(btnB, 2, position);
+
+                }
+            });
+
+            btnC.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectOption(btnC, 3, position);
+
+                }
+            });
+
+            btnD.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectOption(btnD, 4, position);
+
+                }
+            });
+        }
+
+        private void setOption(Button btn, int optionNum, int questionID) {
+            if (DbQuery.questionModelList.get(questionID).getSelectedAnswer() == optionNum) {
+                btn.setBackgroundResource(R.drawable.selected_btn);
+                btn.setTextColor(context.getResources().getColor(R.color.white));
+
+            } else {
+                btn.setBackgroundResource(R.drawable.unselected_btn);
+                btn.setTextColor(context.getResources().getColor(com.google.android.material.R.color.design_default_color_primary));
+
+            }
+        }
+
+
+        private void selectOption(Button btn, int optionNum, int questionID) {
+            if (previousSelected == null) {
+                // not chosen
+                btn.setBackgroundResource(R.drawable.selected_btn);
+                btn.setTextColor(context.getResources().getColor(R.color.white));
+
+                DbQuery.questionModelList.get(questionID).setSelectedAnswer(optionNum);
+
+                previousSelected = btn;
+            } else {
+
+                if (previousSelected.getId() == btn.getId()) {
+                    // delete chosen answer
+
+                    btn.setBackgroundResource(R.drawable.unselected_btn);
+                    btn.setTextColor(context.getResources().getColor(com.google.android.material.R.color.design_default_color_primary));
+
+                    DbQuery.questionModelList.get(questionID).setSelectedAnswer(-1);
+
+                    previousSelected = null;
+                } else {
+                    // change chosen option
+
+                    previousSelected.setBackgroundResource(R.drawable.unselected_btn);
+                    btn.setBackgroundResource(R.drawable.selected_btn);
+
+                    previousSelected.setTextColor(context.getResources().getColor(com.google.android.material.R.color.design_default_color_primary));
+                    btn.setTextColor(context.getResources().getColor(R.color.white));
+
+
+                    DbQuery.questionModelList.get(questionID).setSelectedAnswer(optionNum);
+
+                    previousSelected = btn;
+                }
+
+            }
         }
     }
 }

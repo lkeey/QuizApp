@@ -1,5 +1,7 @@
 package com.example.quizapp;
 
+import static com.example.quizapp.R.color.option_colors;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,6 +28,7 @@ public class QuestionsActivity extends AppCompatActivity {
     private ImageButton previousQuestion, nextQuestion;
     private ImageView questionList;
     private int questionID;
+    private QuestionsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,7 @@ public class QuestionsActivity extends AppCompatActivity {
 
         init();
 
-        QuestionsAdapter adapter = new QuestionsAdapter(DbQuery.questionModelList);
+        adapter = new QuestionsAdapter(DbQuery.questionModelList, getApplicationContext());
         viewQuestions.setAdapter(adapter);
 
         LinearLayoutManager manager =new LinearLayoutManager(this);
@@ -46,6 +49,8 @@ public class QuestionsActivity extends AppCompatActivity {
         setClickListener();
 
         startTimer();
+
+        //amountTime.setTextColor(getResources().getColorStateList(option_colors));
     }
 
     private void startTimer() {
@@ -88,6 +93,15 @@ public class QuestionsActivity extends AppCompatActivity {
                 if (questionID < DbQuery.questionModelList.size() - 1) {
                     viewQuestions.smoothScrollToPosition(questionID + 1);
                 }
+            }
+        });
+
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DbQuery.questionModelList.get(questionID).setSelectedAnswer(-1);
+
+                adapter.notifyDataSetChanged();
             }
         });
     }
