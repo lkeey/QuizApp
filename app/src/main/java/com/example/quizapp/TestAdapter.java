@@ -25,7 +25,6 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.TestHolder> {
         this.context = context;
     }
 
-    @NonNull
     @Override
     public TestHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.i(TAG, "createView");

@@ -40,7 +40,7 @@ public class QuestionsActivity extends AppCompatActivity {
         adapter = new QuestionsAdapter(DbQuery.questionModelList, getApplicationContext());
         viewQuestions.setAdapter(adapter);
 
-        LinearLayoutManager manager =new LinearLayoutManager(this);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(RecyclerView.HORIZONTAL);
         viewQuestions.setLayoutManager(manager);
 

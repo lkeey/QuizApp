@@ -3,6 +3,8 @@ package com.example.quizapp;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,7 +20,7 @@ import java.util.List;
 
 public class CategoryFragment extends Fragment {
 
-    private GridView categoryView;
+    private RecyclerView categoryView;
 //    public static List<CategoryModel> categoryList = new ArrayList<>();
 
     public CategoryFragment() {
@@ -37,6 +40,11 @@ public class CategoryFragment extends Fragment {
 
         CategoryAdapter adapter = new CategoryAdapter(DbQuery.listCategories, getActivity());
         categoryView.setAdapter(adapter);
+
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        manager.setOrientation(RecyclerView.VERTICAL);
+
+        categoryView.setLayoutManager(manager);
 
         return view;
     }

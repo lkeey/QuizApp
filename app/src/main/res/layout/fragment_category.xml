@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".CategoryFragment">
 
-    <GridView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gridCategory"
         android:layout_height="0dp"
         android:layout_width="0dp"
@@ -20,6 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </GridView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

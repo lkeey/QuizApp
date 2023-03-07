@@ -71,9 +71,14 @@ public class DbQuery {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         Map<String, QueryDocumentSnapshot> documentSnapshotMap = new ArrayMap<>();
 
+                        Log.i(TAG, "BEGIN LOADING CATEGORIES");
+
                         for (QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots) {
                             documentSnapshotMap.put(documentSnapshot.getId(), documentSnapshot);
+                            Log.i(TAG, String.valueOf(documentSnapshot.getId()));
                         }
+
+                        Log.i(TAG, String.valueOf(documentSnapshotMap.size()));
 
                         QueryDocumentSnapshot categoriesDocument = documentSnapshotMap.get("CATEGORIES");
 
@@ -84,12 +89,19 @@ public class DbQuery {
 
                             QueryDocumentSnapshot categoryDocument = documentSnapshotMap.get(categoryID);
 
+                            Log.i(TAG, categoryDocument.getId());
+                            Log.i(TAG, String.valueOf(categoryDocument.getLong("NO_OF_TESTS").intValue()));
                             int noOfTests = categoryDocument.getLong("NO_OF_TESTS").intValue();
                             String categoryName = categoryDocument.getString("NAME");
+
+                            Log.i(TAG, categoryName);
 
                             listCategories.add(new CategoryModel(
                                     categoryID, categoryName, noOfTests
                             ));
+
+                            Log.i(TAG, "SUCCESSULLY ADDED");
+
                         }
 
                         listener.OnSuccess();
