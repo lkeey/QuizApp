@@ -1,5 +1,6 @@
 package com.example.quizapp;
 
+import static com.example.quizapp.DbQuery.ANSWERED;
 import static com.example.quizapp.R.color.option_colors;
 
 import android.annotation.SuppressLint;
@@ -128,6 +129,8 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
 
                 DbQuery.questionModelList.get(questionID).setSelectedAnswer(optionNum);
 
+                changeStatus(questionID, DbQuery.ANSWERED);
+
                 previousSelected = btn;
             } else {
 
@@ -139,6 +142,8 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
 
                     DbQuery.questionModelList.get(questionID).setSelectedAnswer(-1);
 
+                    changeStatus(questionID, DbQuery.UNANSWERED);
+
                     previousSelected = null;
                 } else {
                     // change chosen option
@@ -149,12 +154,19 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
                     previousSelected.setTextColor(context.getResources().getColor(com.google.android.material.R.color.design_default_color_primary));
                     btn.setTextColor(context.getResources().getColor(R.color.white));
 
-
                     DbQuery.questionModelList.get(questionID).setSelectedAnswer(optionNum);
+
+                    changeStatus(questionID, DbQuery.ANSWERED);
 
                     previousSelected = btn;
                 }
 
+            }
+        }
+
+        private void changeStatus(int questionID, int status) {
+            if (DbQuery.questionModelList.get(questionID).getStatus() != DbQuery.REVIEW) {
+                DbQuery.questionModelList.get(questionID).setStatus(status);
             }
         }
     }

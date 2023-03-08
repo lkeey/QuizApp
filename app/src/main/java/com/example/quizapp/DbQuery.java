@@ -32,6 +32,10 @@ public class DbQuery {
     public static List<TestModel> testModelList = new ArrayList<>();
     public static ProfileModel userProfile = new ProfileModel("NAME", null);
     public static List<QuestionModel> questionModelList = new ArrayList<>();
+    public static final int NOT_VISITED = 0;
+    public static final int UNANSWERED = 1;
+    public static final int ANSWERED = 2;
+    public static final int REVIEW = 3;
 
     public static void createUserData(String email, String name, CompleteListener listener) {
         Map<String, Object> userData = new ArrayMap<>();
@@ -210,7 +214,8 @@ public class DbQuery {
                                             document.getString("C"),
                                             document.getString("D"),
                                             document.getLong("ANSWER").intValue(),
-                                            -1
+                                            -1,
+                                            NOT_VISITED
                                 )
                             );
                         }

@@ -1,9 +1,8 @@
 package com.example.quizapp;
 
-import static com.example.quizapp.R.color.option_colors;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,15 +10,16 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,10 +29,13 @@ public class QuestionsActivity extends AppCompatActivity {
     private TextView questionName, amountTime, categoryName;
     private Button btnSubmit, btnClear, btnMark;
     private ImageButton previousQuestion, nextQuestion;
-    private ImageView questionList;
+    private ImageView questionList, bookMarkImage;
     private int questionID;
-    private QuestionsAdapter adapter;
+    private QuestionsAdapter adapterQuestions;
     private DrawerLayout drawer;
+    private GridView gridQuestions;
+    private ImageView imageMark;
+    private QuestionsGridAdapter adapterGrid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +44,15 @@ public class QuestionsActivity extends AppCompatActivity {
 
         init();
 
-        adapter = new QuestionsAdapter(DbQuery.questionModelList, getApplicationContext());
-        viewQuestions.setAdapter(adapter);
+        adapterQuestions = new QuestionsAdapter(DbQuery.questionModelList, getApplicationContext());
+        viewQuestions.setAdapter(adapterQuestions);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(RecyclerView.HORIZONTAL);
         viewQuestions.setLayoutManager(manager);
+
+        adapterGrid = new QuestionsGridAdapter(this, DbQuery.questionModelList.size());
+        gridQuestions.setAdapter(adapterGrid);
 
         setSnapHelper();
 
@@ -105,7 +111,7 @@ public class QuestionsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DbQuery.questionModelList.get(questionID).setSelectedAnswer(-1);
 
-                adapter.notifyDataSetChanged();
+                adapterQuestions.notifyDataSetChanged();
             }
         });
 
@@ -113,11 +119,48 @@ public class QuestionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!drawer.isDrawerOpen(GravityCompat.END)) {
+                    adapterGrid.notifyDataSetChanged();
                     drawer.openDrawer(GravityCompat.END);
                 }
             }
         });
 
+        btnMark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setBookmark();
+            }
+        });
+
+    }
+
+    private void setBookmark() {
+        //Toast.makeText(QuestionsActivity.this, "CLICKED", Toast.LENGTH_SHORT).show();
+
+        if (imageMark.getVisibility() != View.VISIBLE) {
+            Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
+
+            imageMark.setVisibility(View.VISIBLE);
+
+            DbQuery.questionModelList.get(questionID).setStatus(DbQuery.REVIEW);
+
+            bookMarkImage.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.yellow)));
+
+        } else {
+            imageMark.setVisibility(View.GONE);
+
+            if (DbQuery.questionModelList.get(questionID).getSelectedAnswer() != -1) {
+                Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
+                DbQuery.questionModelList.get(questionID).setStatus(DbQuery.ANSWERED);
+            } else {
+                Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
+
+                DbQuery.questionModelList.get(questionID).setStatus(DbQuery.UNANSWERED);
+            }
+
+            bookMarkImage.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.white)));
+
+        }
     }
 
     private void setSnapHelper() {
@@ -131,6 +174,11 @@ public class QuestionsActivity extends AppCompatActivity {
 
                 View view = snapHelper.findSnapView(recyclerView.getLayoutManager());
                 questionID = recyclerView.getLayoutManager().getPosition(view);
+
+                if (DbQuery.questionModelList.get(questionID).getStatus() == DbQuery.NOT_VISITED) {
+                    DbQuery.questionModelList.get(questionID).setStatus(DbQuery.UNANSWERED);
+                }
+
                 questionName.setText(String.valueOf(questionID + 1) + "/" + String.valueOf(DbQuery.questionModelList.size()));
             }
 
@@ -153,10 +201,21 @@ public class QuestionsActivity extends AppCompatActivity {
         nextQuestion = findViewById(R.id.nextQuestion);
         questionList = findViewById(R.id.questionsList);
         drawer = findViewById(R.id.drawerLayout);
+        gridQuestions = findViewById(R.id.gridQuestions);
+        imageMark = findViewById(R.id.imageMark);
+        bookMarkImage = findViewById(R.id.bookMark);
 
         questionID = 0;
 
         questionName.setText("1 / " + String.valueOf(DbQuery.questionModelList.size()));
         categoryName.setText(DbQuery.listCategories.get(DbQuery.selectedCategoryIndex).getName());
+    }
+
+    public void goToQuestion(int position) {
+        viewQuestions.smoothScrollToPosition(position);
+
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        }
     }
 }

@@ -27,7 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ic_circle"
-            app:tint="#00FF00" />
+            app:tint="@color/green" />
 
         <TextView
             android:id="@+id/textView"
@@ -49,7 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ic_circle"
-            app:tint="#FF0000" />
+            app:tint="@color/red" />
 
         <TextView
             android:id="@+id/textView2"
@@ -71,7 +71,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageView"
             android:src="@drawable/ic_circle"
-            app:tint="#676464" />
+            app:tint="@color/grey" />
 
         <TextView
             android:id="@+id/textView3"
@@ -94,7 +94,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageView2"
             android:src="@drawable/ic_circle"
-            app:tint="#FF00FF" />
+            app:tint="@color/pink" />
 
         <TextView
             android:id="@+id/textView4"
@@ -120,6 +120,7 @@
             app:layout_constraintTop_toBottomOf="@id/imageView3"/>
 
         <GridView
+            android:id="@+id/gridQuestions"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginLeft="8dp"

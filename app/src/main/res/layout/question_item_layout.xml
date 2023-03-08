@@ -17,10 +17,10 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:scrollbars="vertical"
-        android:background="@color/white"
+        android:background="@drawable/btn_border"
         android:inputType="textMultiLine"
         android:elevation="5dp"
-        android:translationZ="3dp"/>
+        android:translationZ="3dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/optionA"
