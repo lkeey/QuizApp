@@ -15,5 +15,6 @@
         <shape android:shape="oval">
             <solid android:color="@color/design_default_color_primary"/>
         </shape>
+
     </item>
 </layer-list>

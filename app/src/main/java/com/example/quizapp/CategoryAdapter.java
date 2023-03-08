@@ -26,7 +26,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CategoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = null;
         try {
             Log.i(TAG, "BEGIN");
@@ -34,7 +34,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_item_layout, parent, false);
 
         } catch (Exception e) {
-            Log.e(TAG, "onCreateView", e);
+            Log.e(TAG, e.getMessage());
         }
 
         return new ViewHolder(view);
@@ -52,7 +52,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView categoryName, noOfTests;
+        private TextView categoryName, noOfTests;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

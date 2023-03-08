@@ -9,7 +9,9 @@
     <item
         android:id="@+id/nav_leader"
         android:icon="@drawable/ic_leader"
-        android:title="Leader Bord"/>
+        android:title="Leader Bord"
+
+        />
 
     <item
         android:id="@+id/nav_account"

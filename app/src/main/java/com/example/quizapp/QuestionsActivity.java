@@ -4,6 +4,8 @@ import static com.example.quizapp.R.color.option_colors;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -29,11 +32,12 @@ public class QuestionsActivity extends AppCompatActivity {
     private ImageView questionList;
     private int questionID;
     private QuestionsAdapter adapter;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_questions);
+        setContentView(R.layout.question_list_layout);
 
         init();
 
@@ -104,6 +108,16 @@ public class QuestionsActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+
+        questionList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!drawer.isDrawerOpen(GravityCompat.END)) {
+                    drawer.openDrawer(GravityCompat.END);
+                }
+            }
+        });
+
     }
 
     private void setSnapHelper() {
@@ -138,6 +152,7 @@ public class QuestionsActivity extends AppCompatActivity {
         previousQuestion = findViewById(R.id.previousQuestion);
         nextQuestion = findViewById(R.id.nextQuestion);
         questionList = findViewById(R.id.questionsList);
+        drawer = findViewById(R.id.drawerLayout);
 
         questionID = 0;
 
