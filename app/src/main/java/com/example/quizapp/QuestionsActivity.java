@@ -1,6 +1,7 @@
 package com.example.quizapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -36,6 +38,7 @@ public class QuestionsActivity extends AppCompatActivity {
     private GridView gridQuestions;
     private ImageView imageMark;
     private QuestionsGridAdapter adapterGrid;
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,7 @@ public class QuestionsActivity extends AppCompatActivity {
 
     private void startTimer() {
         long totalTime = DbQuery.testModelList.get(DbQuery.selectedTestIndex).getTime()*60*1_000;
-        CountDownTimer timer = new CountDownTimer(totalTime, 1_000) {
+        timer = new CountDownTimer(totalTime, 1_000) {
             @Override
             public void onTick(long remainingTime) {
                 String time = String.format(
@@ -80,7 +83,11 @@ public class QuestionsActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                //Toast.makeText(QuestionsActivity.this, "FINISHED", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(QuestionsActivity.this, ScoreActivity.class);
+                startActivity(intent);
 
+                QuestionsActivity.this.finish();
             }
         };
 
@@ -110,6 +117,10 @@ public class QuestionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DbQuery.questionModelList.get(questionID).setSelectedAnswer(-1);
+                DbQuery.questionModelList.get(questionID).setStatus(DbQuery.UNANSWERED);
+
+                imageMark.setVisibility(View.GONE);
+                bookMarkImage.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.white)));
 
                 adapterQuestions.notifyDataSetChanged();
             }
@@ -132,13 +143,51 @@ public class QuestionsActivity extends AppCompatActivity {
             }
         });
 
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitTest();
+            }
+        });
+    }
+
+    private void submitTest() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(QuestionsActivity.this);
+        builder.setCancelable(true);
+
+        View view = getLayoutInflater().inflate(R.layout.dialog_submit_layout, null);
+
+        Button btnCancel = view.findViewById(R.id.btnCancel);
+        Button bntConfirm = view.findViewById(R.id.btnExit);
+
+        builder.setView(view);
+
+        AlertDialog dialog = builder.create();
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        bntConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timer.cancel();
+                timer.onFinish();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     private void setBookmark() {
         //Toast.makeText(QuestionsActivity.this, "CLICKED", Toast.LENGTH_SHORT).show();
 
         if (imageMark.getVisibility() != View.VISIBLE) {
-            Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
 
             imageMark.setVisibility(View.VISIBLE);
 
@@ -150,10 +199,10 @@ public class QuestionsActivity extends AppCompatActivity {
             imageMark.setVisibility(View.GONE);
 
             if (DbQuery.questionModelList.get(questionID).getSelectedAnswer() != -1) {
-                Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
                 DbQuery.questionModelList.get(questionID).setStatus(DbQuery.ANSWERED);
             } else {
-                Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
 
                 DbQuery.questionModelList.get(questionID).setStatus(DbQuery.UNANSWERED);
             }
@@ -177,6 +226,16 @@ public class QuestionsActivity extends AppCompatActivity {
 
                 if (DbQuery.questionModelList.get(questionID).getStatus() == DbQuery.NOT_VISITED) {
                     DbQuery.questionModelList.get(questionID).setStatus(DbQuery.UNANSWERED);
+                }
+
+                // show review image
+                if (DbQuery.questionModelList.get(questionID).getStatus() == DbQuery.REVIEW) {
+                    imageMark.setVisibility(View.VISIBLE);
+                    bookMarkImage.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.yellow)));
+
+                } else {
+                    imageMark.setVisibility(View.GONE);
+                    bookMarkImage.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.white)));
                 }
 
                 questionName.setText(String.valueOf(questionID + 1) + "/" + String.valueOf(DbQuery.questionModelList.size()));
@@ -209,6 +268,8 @@ public class QuestionsActivity extends AppCompatActivity {
 
         questionName.setText("1 / " + String.valueOf(DbQuery.questionModelList.size()));
         categoryName.setText(DbQuery.listCategories.get(DbQuery.selectedCategoryIndex).getName());
+
+        DbQuery.questionModelList.get(0).setStatus(DbQuery.UNANSWERED);
     }
 
     public void goToQuestion(int position) {
