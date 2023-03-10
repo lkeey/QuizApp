@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
@@ -244,6 +245,34 @@ public class DbQuery {
                 });
     }
 
+    public static void loadMyScores(CompleteListener listener) {
+        firestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
+                .collection("USER_DATA").document("MY_SCORES")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        for (int i = 0; i < testModelList.size(); i ++) {
+                            int top = 0;
+
+                            if (documentSnapshot.get(testModelList.get(i).getTestId()) != null) {
+                                top = documentSnapshot.getLong(testModelList.get(i).getTestId()).intValue();
+                            }
+
+                            testModelList.get(i).setTopScore(top);
+                        }
+                        listener.OnSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.OnFailure();
+                    }
+                });
+    }
+
     public static void saveResult(int score, CompleteListener listener) {
         WriteBatch batch = firestore.batch();
 
@@ -254,7 +283,10 @@ public class DbQuery {
         if (score > testModelList.get(selectedTestIndex).getTopScore()) {
             DocumentReference scoreDocument = userDocument.collection("USER_DATA").document("MY_SCORES");
 
-            batch.update(scoreDocument, testModelList.get(selectedTestIndex).getTestId(), score);
+            Map<String, Object> testData = new ArrayMap<>();
+            testData.put(testModelList.get(selectedTestIndex).getTestId(), score);
+
+            batch.set(scoreDocument, testData, SetOptions.merge());
         }
 
         batch.commit()

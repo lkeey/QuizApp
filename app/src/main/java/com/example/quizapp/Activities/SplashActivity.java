@@ -6,6 +6,7 @@ import androidx.core.content.res.ResourcesCompat;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
@@ -54,6 +55,7 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void OnSuccess() {
                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+
                         startActivity(intent);
                         SplashActivity.this.finish();
                     }

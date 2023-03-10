@@ -7,9 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +35,14 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
+        //
+//        ActionBar actionBar = getSupportActionBar(); // As you said you are using support library
+//        LayoutInflater inflator = (LayoutInflater) this .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View v = inflator.inflate(R.layout.custom_actionbar_layout, null);
+//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        actionBar.setCustomView(v);
+        //
+
         recyclerView = findViewById(R.id.testRecyclerView);
         toolbar = findViewById(R.id.toolbar);
 
@@ -46,6 +58,7 @@ public class TestActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle(DbQuery.listCategories.get(DbQuery.selectedCategoryIndex).getName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_btn_back);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(RecyclerView.VERTICAL);
@@ -58,10 +71,21 @@ public class TestActivity extends AppCompatActivity {
         DbQuery.loadTestData(new CompleteListener() {
             @Override
             public void OnSuccess() {
-                adapter = new TestAdapter(DbQuery.testModelList, TestActivity.this);
-                recyclerView.setAdapter(adapter);
+                DbQuery.loadMyScores(new CompleteListener() {
+                    @Override
+                    public void OnSuccess() {
+                        adapter = new TestAdapter(DbQuery.testModelList, TestActivity.this);
+                        recyclerView.setAdapter(adapter);
 
-                progressBar.dismiss();
+                        progressBar.dismiss();
+                    }
+
+                    @Override
+                    public void OnFailure() {
+                        Toast.makeText(TestActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                        progressBar.dismiss();
+                    }
+                });
             }
 
             @Override

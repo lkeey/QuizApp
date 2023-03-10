@@ -22,4 +22,8 @@
     <style name="Theme.QuizApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.QuizApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>
