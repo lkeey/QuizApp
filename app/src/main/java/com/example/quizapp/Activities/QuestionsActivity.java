@@ -1,4 +1,4 @@
-package com.example.quizapp;
+package com.example.quizapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -21,7 +21,11 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.quizapp.Adapters.QuestionsGridAdapter;
+import com.example.quizapp.Database.DbQuery;
+import com.example.quizapp.Adapters.QuestionsAdapter;
+import com.example.quizapp.R;
 
 import java.util.concurrent.TimeUnit;
 
@@ -39,6 +43,7 @@ public class QuestionsActivity extends AppCompatActivity {
     private ImageView imageMark;
     private QuestionsGridAdapter adapterGrid;
     private CountDownTimer timer;
+    private long timeCounter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,8 @@ public class QuestionsActivity extends AppCompatActivity {
         timer = new CountDownTimer(totalTime, 1_000) {
             @Override
             public void onTick(long remainingTime) {
+                timeCounter = remainingTime;
+
                 String time = String.format(
                         "%02d : %02d minutes",
                         TimeUnit.MILLISECONDS.toMinutes(remainingTime),
@@ -85,6 +92,10 @@ public class QuestionsActivity extends AppCompatActivity {
             public void onFinish() {
                 //Toast.makeText(QuestionsActivity.this, "FINISHED", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(QuestionsActivity.this, ScoreActivity.class);
+
+                long totalTime = DbQuery.testModelList.get(DbQuery.selectedTestIndex).getTime()*60*1_000;
+                intent.putExtra("TIME_TAKEN", totalTime - timeCounter);
+
                 startActivity(intent);
 
                 QuestionsActivity.this.finish();

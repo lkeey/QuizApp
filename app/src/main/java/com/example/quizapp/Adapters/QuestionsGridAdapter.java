@@ -1,4 +1,4 @@
-package com.example.quizapp;
+package com.example.quizapp.Adapters;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -9,6 +9,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
+
+import com.example.quizapp.Database.DbQuery;
+import com.example.quizapp.Activities.QuestionsActivity;
+import com.example.quizapp.R;
 
 public class QuestionsGridAdapter extends BaseAdapter {
 
@@ -50,7 +54,7 @@ public class QuestionsGridAdapter extends BaseAdapter {
         myView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (context instanceof  QuestionsActivity) {
+                if (context instanceof QuestionsActivity) {
                     ((QuestionsActivity) context).goToQuestion(position);
                 }
             }

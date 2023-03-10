@@ -1,11 +1,16 @@
-package com.example.quizapp;
+package com.example.quizapp.Database;
 
 import android.util.ArrayMap;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.quizapp.Interfaces.CompleteListener;
+import com.example.quizapp.Models.CategoryModel;
+import com.example.quizapp.Models.ProfileModel;
+import com.example.quizapp.Models.QuestionModel;
+import com.example.quizapp.Models.RankModel;
+import com.example.quizapp.Models.TestModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +37,8 @@ public class DbQuery {
     public static List<TestModel> testModelList = new ArrayList<>();
     public static ProfileModel userProfile = new ProfileModel("NAME", null);
     public static List<QuestionModel> questionModelList = new ArrayList<>();
+    public static RankModel myPerformance = new RankModel(0,0);
+
     public static final int NOT_VISITED = 0;
     public static final int UNANSWERED = 1;
     public static final int ANSWERED = 2;
@@ -166,6 +173,8 @@ public class DbQuery {
                         userProfile.setName(documentSnapshot.getString("NAME"));
                         userProfile.setEmail(documentSnapshot.getString("EMAIL_ID"));
 
+                        myPerformance.setScore(documentSnapshot.getLong("TOTAL_SCORE").intValue());
+
                         listener.OnSuccess();
                     }
                 })
@@ -225,6 +234,40 @@ public class DbQuery {
 
                         Log.i(TAG, "OKEY2");
 
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.OnFailure();
+                    }
+                });
+    }
+
+    public static void saveResult(int score, CompleteListener listener) {
+        WriteBatch batch = firestore.batch();
+
+        DocumentReference userDocument = firestore.collection("USERS").document(FirebaseAuth.getInstance().getUid());
+
+        batch.update(userDocument, "TOTAL_SCORE", score);
+
+        if (score > testModelList.get(selectedTestIndex).getTopScore()) {
+            DocumentReference scoreDocument = userDocument.collection("USER_DATA").document("MY_SCORES");
+
+            batch.update(scoreDocument, testModelList.get(selectedTestIndex).getTestId(), score);
+        }
+
+        batch.commit()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        if (score > testModelList.get(selectedTestIndex).getTopScore()) {
+                            testModelList.get(selectedTestIndex).setTopScore(score);
+
+                            myPerformance.setScore(score);
+
+                            listener.OnSuccess();
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

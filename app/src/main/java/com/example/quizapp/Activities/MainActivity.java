@@ -1,22 +1,24 @@
-package com.example.quizapp;
+package com.example.quizapp.Activities;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quizapp.Database.DbQuery;
+import com.example.quizapp.Fragments.AccountFragment;
+import com.example.quizapp.Fragments.CategoryFragment;
+import com.example.quizapp.Fragments.LeaderBordFragment;
+import com.example.quizapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
@@ -27,8 +29,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quizapp.databinding.ActivityMainBinding;
-
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 

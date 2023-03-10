@@ -1,4 +1,4 @@
-package com.example.quizapp;
+package com.example.quizapp.Fragments;
 
 import android.os.Bundle;
 
@@ -6,17 +6,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.quizapp.Adapters.CategoryAdapter;
+import com.example.quizapp.Database.DbQuery;
+import com.example.quizapp.R;
 
 public class CategoryFragment extends Fragment {
 

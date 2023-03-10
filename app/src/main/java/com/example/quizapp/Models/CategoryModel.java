@@ -1,4 +1,4 @@
-package com.example.quizapp;
+package com.example.quizapp.Models;
 
 public class CategoryModel {
 

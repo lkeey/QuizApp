@@ -1,4 +1,4 @@
-package com.example.quizapp;
+package com.example.quizapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
@@ -11,6 +11,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quizapp.Interfaces.CompleteListener;
+import com.example.quizapp.Database.DbQuery;
+import com.example.quizapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 

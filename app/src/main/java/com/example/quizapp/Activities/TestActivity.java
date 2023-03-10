@@ -1,4 +1,4 @@
-package com.example.quizapp;
+package com.example.quizapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.quizapp.Adapters.TestAdapter;
+import com.example.quizapp.Interfaces.CompleteListener;
+import com.example.quizapp.Database.DbQuery;
+import com.example.quizapp.R;
 
 public class TestActivity extends AppCompatActivity {
 
