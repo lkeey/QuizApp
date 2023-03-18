@@ -293,6 +293,7 @@ public class DbQuery {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        //change if less than max
                         if (score > testModelList.get(selectedTestIndex).getTopScore()) {
                             testModelList.get(selectedTestIndex).setTopScore(score);
 

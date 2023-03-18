@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.quizapp.Activities.MainActivity;
 import com.example.quizapp.Adapters.CategoryAdapter;
 import com.example.quizapp.Database.DbQuery;
 import com.example.quizapp.R;
@@ -41,6 +42,8 @@ public class CategoryFragment extends Fragment {
         manager.setOrientation(RecyclerView.VERTICAL);
 
         categoryView.setLayoutManager(manager);
+
+        ((MainActivity)getActivity()).getSupportActionBar().setTitle("Feed");
 
         return view;
     }

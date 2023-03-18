@@ -109,7 +109,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         progressBar.show();
 
-        mAuth.createUserWithEmailAndPassword(emailString, nameString)
+        mAuth.createUserWithEmailAndPassword(emailString, passwordString)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -150,8 +150,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                         } else {
                             // If sign in fails, display a message to the user.
-//                            Toast.makeText(SignUpActivity.this, task.getException().getMessage(),
-//                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, task.getException().getMessage(),
+                                    Toast.LENGTH_SHORT).show();
                             Toast.makeText(SignUpActivity.this, "Sign Up Failed",
                                     Toast.LENGTH_SHORT).show();
                             progressBar.dismiss();

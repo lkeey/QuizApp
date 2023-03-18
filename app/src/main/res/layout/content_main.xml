@@ -23,10 +23,10 @@
         android:id="@+id/bottomNavBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#FFFFFFFF"
+        android:background="@color/white"
         app:menu="@menu/bottom_menu"
-        app:itemTextColor="#310275"
-        app:itemIconTint="#310275"
+        app:itemTextColor="@color/design_default_color_primary"
+        app:itemIconTint="@color/design_default_color_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
