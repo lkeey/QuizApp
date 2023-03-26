@@ -36,10 +36,9 @@ public class DbQuery {
     public static int selectedCategoryIndex = 0;
     public static int selectedTestIndex = 0;
     public static List<TestModel> testModelList = new ArrayList<>();
-    public static ProfileModel userProfile = new ProfileModel("NAME", null);
+    public static ProfileModel userProfile = new ProfileModel("NAME", null, null);
     public static List<QuestionModel> questionModelList = new ArrayList<>();
-    public static RankModel myPerformance = new RankModel(0,0);
-
+    public static RankModel myPerformance = new RankModel(0,-1);
     public static final int NOT_VISITED = 0;
     public static final int UNANSWERED = 1;
     public static final int ANSWERED = 2;
@@ -173,6 +172,10 @@ public class DbQuery {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         userProfile.setName(documentSnapshot.getString("NAME"));
                         userProfile.setEmail(documentSnapshot.getString("EMAIL_ID"));
+
+                        if (documentSnapshot.getString("PHONE") != null) {
+                            userProfile.setPhone(documentSnapshot.getString("PHONE"));
+                        }
 
                         myPerformance.setScore(documentSnapshot.getLong("TOTAL_SCORE").intValue());
 
@@ -310,4 +313,31 @@ public class DbQuery {
                     }
                 });
     }
+
+    public static void saveProfileData(String name, String phone, CompleteListener completeListener) {
+        Map<String, Object> profileData = new ArrayMap<>();
+
+        profileData.put("NAME", name);
+
+        profileData.put("PHONE", phone);
+
+        firestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
+                .update(profileData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        userProfile.setName(name);
+                        userProfile.setPhone(phone);
+
+                        completeListener.OnSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completeListener.OnFailure();
+                    }
+                });
+    }
+
 }

@@ -44,7 +44,6 @@ public class TestActivity extends AppCompatActivity {
         //
 
         recyclerView = findViewById(R.id.testRecyclerView);
-        toolbar = findViewById(R.id.toolbar);
 
         progressBar = new Dialog(TestActivity.this);
         progressBar.setContentView(R.layout.dialog_layout);
@@ -53,6 +52,9 @@ public class TestActivity extends AppCompatActivity {
 
         dialogText = progressBar.findViewById(R.id.dialogText);
         dialogText.setText("Loading");
+
+
+        toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);

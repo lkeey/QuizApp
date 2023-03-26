@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.quizapp.Activities.LoginActivity;
 import com.example.quizapp.Activities.MainActivity;
+import com.example.quizapp.Activities.MyProfileActivity;
 import com.example.quizapp.Database.DbQuery;
 import com.example.quizapp.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -51,7 +52,7 @@ public class AccountFragment extends Fragment {
 
         setUserData();
 
-        ((MainActivity)getActivity()).getSupportActionBar().setTitle("Profile");
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Profile");
 
         return view;
     }
@@ -108,7 +109,8 @@ public class AccountFragment extends Fragment {
         layoutProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(), MyProfileActivity.class);
+                startActivity(intent);
             }
         });
 
