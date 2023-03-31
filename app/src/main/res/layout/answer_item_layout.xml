@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:background="@drawable/round_view">
+
+    <TextView
+        android:id="@+id/questionNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Question No. 1"
+        android:textColor="@color/grey"
+        android:textSize="16sp"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/design_default_color_primary" />
+
+    <TextView
+        android:id="@+id/questionTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Question"
+        android:textSize="20sp"
+        android:textColor="@color/design_default_color_primary"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/optionA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="A: ..."
+        android:textSize="16sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/optionB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="B: ..."
+        android:textSize="16sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/optionC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="C: ..."
+        android:textSize="16sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/optionD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="D: ..."
+        android:textSize="16sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/resultTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:text="Wrong"/>
+
+</LinearLayout>

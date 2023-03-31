@@ -318,8 +318,9 @@ public class DbQuery {
 
                             myPerformance.setScore(score);
 
-                            listener.OnSuccess();
                         }
+
+                        listener.OnSuccess();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

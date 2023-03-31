@@ -1,6 +1,7 @@
 package com.example.quizapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -21,8 +22,8 @@ public class StartTestActivity extends AppCompatActivity {
     private static final String TAG = "TestStartActivity";
     private TextView categoryName, testNo, amountQuestions, totalScore, amountTime, dialogText;
     private Button btnStart;
-    private ImageView btnBack;
     private Dialog progressBar;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +56,15 @@ public class StartTestActivity extends AppCompatActivity {
         totalScore = findViewById(R.id.totalScore);
         amountTime = findViewById(R.id.amountTime);
         btnStart = findViewById(R.id.startBtn);
-        btnBack = findViewById(R.id.btnBack);
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                StartTestActivity.this.finish();
-            }
-        });
+        toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_btn_back);
+        getSupportActionBar().setTitle("Menu");
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override

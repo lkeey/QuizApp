@@ -10,11 +10,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.quizapp.Fragments.CategoryFragment;
+import com.example.quizapp.Fragments.LeaderBordFragment;
 import com.example.quizapp.Interfaces.CompleteListener;
 import com.example.quizapp.Database.DbQuery;
 import com.example.quizapp.R;
@@ -38,9 +42,11 @@ public class ScoreActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Result");
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_btn_back);
 
         progressBar = new Dialog(ScoreActivity.this);
         progressBar.setContentView(R.layout.dialog_layout);
@@ -63,7 +69,9 @@ public class ScoreActivity extends AppCompatActivity {
         btnCheckLeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                transaction.replace(mainFrame.getId(), fragment);
+//                transaction.commit();
             }
         });
 
@@ -77,7 +85,8 @@ public class ScoreActivity extends AppCompatActivity {
         btnViewAnswers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(ScoreActivity.this, AnswersActivity.class);
+                startActivity(intent);
             }
         });
 
