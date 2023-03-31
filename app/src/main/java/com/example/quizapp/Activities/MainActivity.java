@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.nav_account:
-                    Toast.makeText(MainActivity.this, "ACCOUNT", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "ACCOUNT", Toast.LENGTH_SHORT).show();
                     setFragment(new AccountFragment());
                     return true;
 

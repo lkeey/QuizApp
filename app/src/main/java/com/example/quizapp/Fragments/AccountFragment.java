@@ -1,5 +1,6 @@
 package com.example.quizapp.Fragments;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import com.example.quizapp.Activities.LoginActivity;
 import com.example.quizapp.Activities.MainActivity;
 import com.example.quizapp.Activities.MyProfileActivity;
 import com.example.quizapp.Database.DbQuery;
+import com.example.quizapp.Interfaces.CompleteListener;
 import com.example.quizapp.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -32,9 +34,10 @@ public class AccountFragment extends Fragment {
 
     private static final String TAG = "FragmentAccount";
     private LinearLayout layoutLogout, layoutLeader, layoutBookmark, layoutProfile;
-    private TextView imgProfileTxt, nameTxt, scoreTxt, rankTxt;
+    private TextView imgProfileTxt, nameTxt, scoreTxt, rankTxt, dialogText;
     private BottomNavigationView bottomNavigationView;
     private Toolbar toolbar;
+    private Dialog progressBar;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -47,6 +50,14 @@ public class AccountFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
         init(view);
+
+        progressBar = new Dialog(getContext());
+        progressBar.setContentView(R.layout.dialog_layout);
+        progressBar.setCancelable(false);
+        progressBar.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        dialogText = progressBar.findViewById(R.id.dialogText);
+        dialogText.setText("Loading...");
 
         setListeners();
 
@@ -64,6 +75,37 @@ public class AccountFragment extends Fragment {
 
         scoreTxt.setText(String.valueOf(DbQuery.myPerformance.getScore()));
 
+
+        if (DbQuery.usersList.size() == 0) {
+            progressBar.show();
+
+            DbQuery.getTopUsers(new CompleteListener() {
+                @Override
+                public void OnSuccess() {
+                    if (DbQuery.myPerformance.getScore() != 0) {
+                        if (! DbQuery.isUserOnTopList) {
+                            calculateRank();
+                        }
+
+                        scoreTxt.setText(String.valueOf(DbQuery.myPerformance.getScore()));
+                        rankTxt.setText(String.valueOf(DbQuery.myPerformance.getRank()));
+
+                    }
+
+                    progressBar.dismiss();
+                }
+
+                @Override
+                public void OnFailure() {
+                    progressBar.dismiss();
+                    Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            scoreTxt.setText(String.valueOf(DbQuery.myPerformance.getScore()));
+            rankTxt.setText(String.valueOf(DbQuery.myPerformance.getRank()));
+
+        }
 
     }
 
@@ -134,5 +176,23 @@ public class AccountFragment extends Fragment {
         layoutLogout = view.findViewById(R.id.layoutLogout);
         bottomNavigationView = getActivity().findViewById(R.id.bottomNavBar);
         toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+    }
+
+    private void calculateRank() {
+        int lowTopScore =  DbQuery.usersList.get(DbQuery.usersList.size() - 1).getScore();
+
+        int remainingSlots = DbQuery.countUsers - 20;
+
+        int userSlot = DbQuery.myPerformance.getScore()*remainingSlots / lowTopScore;
+
+        int rank;
+
+        if (lowTopScore != DbQuery.myPerformance.getScore()) {
+            rank = DbQuery.countUsers - userSlot;
+        } else {
+            rank = 21;
+        }
+
+        DbQuery.myPerformance.setRank(rank);
     }
 }

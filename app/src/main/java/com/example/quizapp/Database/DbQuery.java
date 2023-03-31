@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -33,12 +34,15 @@ public class DbQuery {
 
     public static FirebaseFirestore firestore;
     public static List<CategoryModel> listCategories = new ArrayList<>();
+    public static List<RankModel> usersList = new ArrayList<>();
+    public static int countUsers = 0;
+    public static boolean isUserOnTopList = false;
     public static int selectedCategoryIndex = 0;
     public static int selectedTestIndex = 0;
     public static List<TestModel> testModelList = new ArrayList<>();
-    public static ProfileModel userProfile = new ProfileModel("NAME", null, null);
+    public static ProfileModel userProfile = new ProfileModel("NAME USER", null, null);
     public static List<QuestionModel> questionModelList = new ArrayList<>();
-    public static RankModel myPerformance = new RankModel(0,-1);
+    public static RankModel myPerformance = new RankModel("NAME USER",0,-1);
     public static final int NOT_VISITED = 0;
     public static final int UNANSWERED = 1;
     public static final int ANSWERED = 2;
@@ -178,6 +182,7 @@ public class DbQuery {
                         }
 
                         myPerformance.setScore(documentSnapshot.getLong("TOTAL_SCORE").intValue());
+                        myPerformance.setName(documentSnapshot.getString("NAME"));
 
                         listener.OnSuccess();
                     }
@@ -194,7 +199,18 @@ public class DbQuery {
         loadCategories(new CompleteListener() {
             @Override
             public void OnSuccess() {
-                getUserData(listener);
+//                getUserData(listener);
+                getUserData(new CompleteListener() {
+                    @Override
+                    public void OnSuccess() {
+                        getUsersCount(listener);
+                    }
+
+                    @Override
+                    public void OnFailure() {
+                        listener.OnFailure();
+                    }
+                });
             }
 
             @Override
@@ -338,6 +354,70 @@ public class DbQuery {
                         completeListener.OnFailure();
                     }
                 });
+    }
+
+    public static void  getTopUsers(CompleteListener listener) {
+        usersList.clear();
+
+        String userUID = FirebaseAuth.getInstance().getUid();
+
+        firestore.collection("USERS")
+                .whereGreaterThan("TOTAL_SCORE", 0)
+                .orderBy("TOTAL_SCORE", Query.Direction.DESCENDING)
+                .limit(20)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        int rank = 1;
+
+                        for (QueryDocumentSnapshot document: queryDocumentSnapshots) {
+                            usersList.add(new RankModel(
+                                    document.getString("NAME"),
+                                    document.getLong("TOTAL_SCORE").intValue(),
+                                    rank
+
+                            ));
+
+                            if (userUID.compareTo(document.getId()) == 0) {
+                                isUserOnTopList = true;
+                                myPerformance.setRank(rank);
+                            }
+
+                            rank++;
+
+                        }
+
+                        listener.OnSuccess();
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.OnFailure();
+                    }
+                });
+    }
+
+    public static void getUsersCount(CompleteListener listener) {
+        firestore.collection("USERS").document("TOTAL_USERS")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        countUsers = documentSnapshot.getLong("COUNT").intValue();
+
+                        listener.OnSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.OnFailure();
+                    }
+                });
+
     }
 
 }

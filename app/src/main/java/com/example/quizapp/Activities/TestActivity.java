@@ -53,7 +53,6 @@ public class TestActivity extends AppCompatActivity {
         dialogText = progressBar.findViewById(R.id.dialogText);
         dialogText.setText("Loading");
 
-
         toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);

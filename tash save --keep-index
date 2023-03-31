@@ -1,0 +1,156 @@
+[33mcommit 3ab99900ca813705ed14629cbfb6ce3510eda1d8[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Fri Mar 10 23:55:03 2023 +0300
+
+    load user's scores for tests; change home button dynamically
+
+[33mcommit 3f3fe3f6793357861ef6e6034bfe3cc555fd38b8[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Fri Mar 10 18:58:56 2023 +0300
+
+    save user's score; show success of test
+
+[33mcommit 70b329eb64128a0e1ac4ccdf224cdc2426766313[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Fri Mar 10 15:49:01 2023 +0300
+
+    create score layout
+
+[33mcommit 9fd586b1681763a49ad1286985731eea605eadd6[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Thu Mar 9 22:48:58 2023 +0300
+
+    add ability to confirm test; show bookmark in definite questions; at first, set first level as unanswered
+
+[33mcommit 9fecc8af65dea42e7d16687cc684856eec9e99bd[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Wed Mar 8 19:33:02 2023 +0300
+
+    add ability to save bookmarks; show question status; scroll into clicked question
+
+[33mcommit 5d8df9fca8b7ea61df7e8ecf94c8ebfab696bc6a[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Wed Mar 8 16:33:31 2023 +0300
+
+    change design of bottom navigation and drawers; create new drawer which show questions
+
+[33mcommit fcd81085ac4491f64acd1b8085a631bcab9cfab6[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Tue Mar 7 23:24:37 2023 +0300
+
+    update category layout to newer version
+
+[33mcommit fae5f05ad91c03391ea0c3ac60e74435c69e6b79[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Sun Mar 5 21:30:19 2023 +0300
+
+    add ability to clear chosen options;
+    create design which changes when user clicks on it
+
+[33mcommit 7b861f16929336b3528f9869881d5bc73edd6af6[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Sun Mar 5 19:07:56 2023 +0300
+
+    create timer, buttons, which change question; show number of the question
+
+[33mcommit f7d51ae186de0c86a6468ac6110729339827d686[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Sat Mar 4 22:26:09 2023 +0300
+
+    create question adapter
+
+[33mcommit cbea0883a6189d28dd60e35aaa687402a534e22f[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Sat Mar 4 21:43:53 2023 +0300
+
+    get dynamically tests from firestore cloud
+
+[33mcommit adc06019b2ab5831faf8145cfdcca1a68c487fb7[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Fri Mar 3 23:43:21 2023 +0300
+
+    create start-test layout
+
+[33mcommit 8257f87a221d350b489311003499d93a5929d900[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Sun Feb 26 22:48:48 2023 +0300
+
+    create question layout; add listener on navigation view; close navigation view after click
+
+[33mcommit ba29a57b727884cb39c17ad3259fd0242a37f555[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Sun Feb 26 20:45:27 2023 +0300
+
+    create custom navigation view
+
+[33mcommit f9de4fc57e22c23e3767254537a892c93f3fc3a5[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Sun Feb 26 18:18:53 2023 +0300
+
+    loading tests from cloud firestore
+
+[33mcommit e3fdb3d03f728f8a49a09c2eaa96d2d501f1395c[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Sun Feb 26 14:08:08 2023 +0300
+
+    auto loading categories from database
+
+[33mcommit 2cb5aa45d74fa1527664ec2b56dfe135ef34f85c[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Sun Feb 26 13:29:53 2023 +0300
+
+    connect with Cloud Firestore; save user data
+
+[33mcommit 22fe22194778712db30807bef12be89a5f836dc6[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Sat Feb 25 23:01:25 2023 +0300
+
+    add ability to logout from account
+
+[33mcommit dc3d85538fabbf939e93b0b1048ad922cb455929[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Sat Feb 25 22:34:08 2023 +0300
+
+    create adapter which shows tests
+
+[33mcommit 0122a6e6dbaa3c3298254708320904f24385959e[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Sat Feb 25 00:06:44 2023 +0300
+
+    sign in with google
+
+[33mcommit 0c87a0d80fc19847ce8245205acbf84361ae3784[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Fri Feb 24 22:01:05 2023 +0300
+
+    add ability to login in account; enter without registration
+
+[33mcommit 59995d139ce93bb5ffe42cbbe1300d9ecc2f6453[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Fri Feb 24 21:12:42 2023 +0300
+
+    collaboration with FireBase; add ability to register
+
+[33mcommit b267d2a1620521e41475b3863611f5ce4fede7ce[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Fri Feb 24 17:42:53 2023 +0300
+
+    create login activity
+
+[33mcommit 8bf95250cc27333d3844ac27cfae2dda65e0ef85[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Fri Feb 24 17:08:48 2023 +0300
+
+    create adapter and show all tests
+
+[33mcommit c22f3f7f8e49fe8a200cf3b728af676e327cd598[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Fri Feb 24 15:39:15 2023 +0300
+
+    add bottom navigation
+
+[33mcommit c1fa29a299fbd7964aa350a0e793353d2b0d30d4[m
+Author: l_keey14 <Leon062007@mail.ru>
+Date:   Fri Feb 24 13:20:46 2023 +0300
+
+    create animation; add bottom menu
