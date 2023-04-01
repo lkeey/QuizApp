@@ -2,6 +2,7 @@ package com.example.quizapp.Database;
 
 import android.util.ArrayMap;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -39,10 +41,11 @@ public class DbQuery {
     public static boolean isUserOnTopList = false;
     public static int selectedCategoryIndex = 0;
     public static int selectedTestIndex = 0;
+    public static List<String> bookmarkIdList = new ArrayList<>();
     public static List<TestModel> testModelList = new ArrayList<>();
-    public static ProfileModel userProfile = new ProfileModel("NAME USER", null, null);
+    public static ProfileModel userProfile = new ProfileModel("NAME USER", null, null, 0);
     public static List<QuestionModel> questionModelList = new ArrayList<>();
-    public static RankModel myPerformance = new RankModel("NAME USER",0,-1);
+    public static RankModel myPerformance = new RankModel("NAME USER",0,0);
     public static final int NOT_VISITED = 0;
     public static final int UNANSWERED = 1;
     public static final int ANSWERED = 2;
@@ -53,6 +56,7 @@ public class DbQuery {
         userData.put("EMAIL_ID", email);
         userData.put("NAME", name);
         userData.put("TOTAL_SCORE", 0);
+        userData.put("BOOKMARKS", 0);
 
         DocumentReference userDoc = firestore.collection("USERS").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
         WriteBatch batch = firestore.batch();
@@ -181,6 +185,10 @@ public class DbQuery {
                             userProfile.setPhone(documentSnapshot.getString("PHONE"));
                         }
 
+                        if (documentSnapshot.get("BOOKMARKS") != null) {
+                            userProfile.setBookmarksCount(documentSnapshot.getLong("BOOKMARKS").intValue());
+                        }
+
                         myPerformance.setScore(documentSnapshot.getLong("TOTAL_SCORE").intValue());
                         myPerformance.setName(documentSnapshot.getString("NAME"));
 
@@ -199,22 +207,41 @@ public class DbQuery {
         loadCategories(new CompleteListener() {
             @Override
             public void OnSuccess() {
-//                getUserData(listener);
+                Log.i(TAG, "Categories was loaded");
                 getUserData(new CompleteListener() {
                     @Override
                     public void OnSuccess() {
-                        getUsersCount(listener);
+                        Log.i(TAG, "User Data was got");
+
+                        getUsersCount(new CompleteListener() {
+                            @Override
+                            public void OnSuccess() {
+                                Log.i(TAG, "Count Of Users was got");
+
+                                loadBookmarkIds(listener);
+                            }
+
+                            @Override
+                            public void OnFailure() {
+                                Log.i(TAG, "Exception: User Data can not be got");
+
+                                listener.OnFailure();
+                            }
+                        });
                     }
 
                     @Override
                     public void OnFailure() {
+                        Log.i(TAG, "Exception: User Data can not be got");
+
                         listener.OnFailure();
                     }
                 });
             }
-
             @Override
             public void OnFailure() {
+                Log.i(TAG, "Exception: Categories can not be loaded");
+
                 listener.OnFailure();
             }
         });
@@ -235,8 +262,15 @@ public class DbQuery {
                         for (DocumentSnapshot document: queryDocumentSnapshots) {
                             Log.i(TAG, document.getString("QUESTION"));
 
+                            boolean isBookmarked = false;
+
+                            if (bookmarkIdList.contains(document.getId())) {
+                                isBookmarked = true;
+                            }
+
                             questionModelList.add(
                                     new QuestionModel(
+                                            document.getId(),
                                             document.getString("QUESTION"),
                                             document.getString("A"),
                                             document.getString("B"),
@@ -244,7 +278,8 @@ public class DbQuery {
                                             document.getString("D"),
                                             document.getLong("ANSWER").intValue(),
                                             -1,
-                                            NOT_VISITED
+                                            NOT_VISITED,
+                                            isBookmarked
                                 )
                             );
                         }
@@ -297,39 +332,71 @@ public class DbQuery {
 
         DocumentReference userDocument = firestore.collection("USERS").document(FirebaseAuth.getInstance().getUid());
 
-        batch.update(userDocument, "TOTAL_SCORE", score);
+        Map<String, Object> bookmarkData = new ArrayMap<>();
 
-        if (score > testModelList.get(selectedTestIndex).getTopScore()) {
-            DocumentReference scoreDocument = userDocument.collection("USER_DATA").document("MY_SCORES");
-
-            Map<String, Object> testData = new ArrayMap<>();
-            testData.put(testModelList.get(selectedTestIndex).getTestId(), score);
-
-            batch.set(scoreDocument, testData, SetOptions.merge());
+        for (int i=0; i < bookmarkIdList.size(); i++) {
+            bookmarkData.put("BOOKMARK" + (i + 1) + "_ID", bookmarkIdList.get(i));
+            Log.i(TAG, "bookMark" + bookmarkIdList.get(i));
         }
 
-        batch.commit()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        //change if less than max
-                        if (score > testModelList.get(selectedTestIndex).getTopScore()) {
-                            testModelList.get(selectedTestIndex).setTopScore(score);
+        DocumentReference bookmarkDocument = firestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
+                .collection("USER_DATA")
+                .document("BOOKMARKS");
 
-                            myPerformance.setScore(score);
+        batch.set(bookmarkDocument, bookmarkData);
 
-                        }
+        userDocument.get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Map<String, Object> userData = new ArrayMap<>();
 
-                        listener.OnSuccess();
+                    if (score > testModelList.get(selectedTestIndex).getTopScore()) {
+                        int userExperience = documentSnapshot.getLong("TOTAL_SCORE").intValue();
+                        int allScore = userExperience + score - testModelList.get(selectedTestIndex).getTopScore();
+                        userData.put("TOTAL_SCORE", allScore);
+
+                        DocumentReference scoreDocument = userDocument.collection("USER_DATA").document("MY_SCORES");
+
+                        Map<String, Object> testData = new ArrayMap<>();
+
+                        testData.put(testModelList.get(selectedTestIndex).getTestId(), score);
+                        batch.set(scoreDocument, testData, SetOptions.merge());
+
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        listener.OnFailure();
-                    }
-                });
-    }
+
+                    userData.put("BOOKMARKS", bookmarkIdList.size());
+
+                    batch.update(userDocument, userData);
+
+                    batch.commit()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                //change if less than max
+                                if (score > testModelList.get(selectedTestIndex).getTopScore()) {
+                                    testModelList.get(selectedTestIndex).setTopScore(score);
+
+                                    myPerformance.setScore(score);
+                                }
+                                listener.OnSuccess();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                listener.OnFailure();
+                            }
+                        });
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    listener.OnFailure();
+                }
+            });
+        }
 
     public static void saveProfileData(String name, String phone, CompleteListener completeListener) {
         Map<String, Object> profileData = new ArrayMap<>();
@@ -418,6 +485,36 @@ public class DbQuery {
                         listener.OnFailure();
                     }
                 });
+
+    }
+
+    public static void loadBookmarkIds(CompleteListener listener) {
+        bookmarkIdList.clear();
+
+        firestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
+                .collection("USER_DATA")
+                .document("BOOKMARKS")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        int count = userProfile.getBookmarksCount();
+
+                        for(int i=0; i < count; i++) {
+                            String bookmarkID = documentSnapshot.getString("BOOKMARK" + (i+1) + "_ID");
+                            bookmarkIdList.add(bookmarkID);
+                        }
+
+                        listener.OnSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.OnFailure();
+                    }
+                });
+
 
     }
 

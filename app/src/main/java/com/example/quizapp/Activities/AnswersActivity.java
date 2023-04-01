@@ -6,19 +6,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.example.quizapp.Adapters.TestAdapter;
-import com.example.quizapp.AnswersAdapter;
+import com.example.quizapp.Adapters.AnswersAdapter;
 import com.example.quizapp.Database.DbQuery;
 import com.example.quizapp.R;
-
-import org.checkerframework.checker.units.qual.A;
 
 public class AnswersActivity extends AppCompatActivity {
 

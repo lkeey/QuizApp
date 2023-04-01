@@ -1,11 +1,13 @@
 package com.example.quizapp.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -98,5 +100,15 @@ public class StartTestActivity extends AppCompatActivity {
         amountQuestions.setText(String.valueOf(DbQuery.questionModelList.size()));
         totalScore.setText(String.valueOf(DbQuery.testModelList.get(DbQuery.selectedTestIndex).getTopScore()));
         amountTime.setText(String.valueOf(DbQuery.testModelList.get(DbQuery.selectedTestIndex).getTime()));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            StartTestActivity.this.finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.quizapp.Models;
 
 public class QuestionModel {
+    private String ID;
     private String question;
     private String optionA;
     private String optionB;
@@ -9,8 +10,10 @@ public class QuestionModel {
     private int correctAnswer;
     private int selectedAnswer;
     private int status;
+    private boolean isBookmarked;
 
-    public QuestionModel(String question, String optionA, String optionB, String optionC, String optionD, int correctAnswer, int selectedAnswer, int status) {
+    public QuestionModel(String ID, String question, String optionA, String optionB, String optionC, String optionD, int correctAnswer, int selectedAnswer, int status, boolean isBookmarked) {
+        this.ID = ID;
         this.question = question;
         this.optionA = optionA;
         this.optionB = optionB;
@@ -19,6 +22,15 @@ public class QuestionModel {
         this.correctAnswer = correctAnswer;
         this.selectedAnswer = selectedAnswer;
         this.status = status;
+        this.isBookmarked = isBookmarked;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
     public int getStatus() {
@@ -83,5 +95,13 @@ public class QuestionModel {
 
     public void setCorrectAnswer(int correctAnswer) {
         this.correctAnswer = correctAnswer;
+    }
+
+    public boolean isBookmarked() {
+        return isBookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        isBookmarked = bookmarked;
     }
 }

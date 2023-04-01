@@ -1,4 +1,4 @@
-package com.example.quizapp;
+package com.example.quizapp.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizapp.Models.QuestionModel;
+import com.example.quizapp.R;
 
 import java.util.List;
 
@@ -79,6 +80,8 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.ViewHold
             if (selectedAnswer == -1) {
                 resultTxt.setText("Un-Answered");
                 resultTxt.setTextColor(itemView.getContext().getResources().getColor(R.color.black));
+                setOptionColor(correctAnswer, R.color.green);
+
             } else {
                 if (selectedAnswer == correctAnswer) {
                     resultTxt.setText("Correct");

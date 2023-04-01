@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +22,14 @@ import com.example.quizapp.Fragments.CategoryFragment;
 import com.example.quizapp.Fragments.LeaderBordFragment;
 import com.example.quizapp.Interfaces.CompleteListener;
 import com.example.quizapp.Database.DbQuery;
+import com.example.quizapp.Models.QuestionModel;
 import com.example.quizapp.R;
 
 import java.util.concurrent.TimeUnit;
 
 public class ScoreActivity extends AppCompatActivity {
 
+    private static final String TAG = "ActivityScore";
     private TextView totalScore, timeTaken, totalQuestions, amountCorrect, amountWrong, amountUnAttempted, dialogText;
     private Button btnCheckLeader, btnReAttempt, btnViewAnswers;
     private long timeLeft;
@@ -61,6 +64,8 @@ public class ScoreActivity extends AppCompatActivity {
         init();
 
         loadData();
+
+        setBookmarks();
 
         setClickListeners();
     }
@@ -175,6 +180,27 @@ public class ScoreActivity extends AppCompatActivity {
         );
 
         timeTaken.setText(time);
+    }
+
+    private void setBookmarks() {
+        for (int i=0; i < DbQuery.questionModelList.size(); i++) {
+            QuestionModel questionModel = DbQuery.questionModelList.get(i);
+
+            if (questionModel.isBookmarked()) {
+                if (! DbQuery.bookmarkIdList.contains(questionModel.getID())) {
+                    DbQuery.bookmarkIdList.add(questionModel.getID());
+                    Log.i(TAG, "Added Bookmark - " + questionModel.getQuestion() + " - " + questionModel.getID());
+                }
+            } else {
+                if (DbQuery.bookmarkIdList.contains(questionModel.getID())) {
+                    DbQuery.bookmarkIdList.remove(questionModel.getID());
+                    Log.i(TAG, "Deleted Bookmark - " + questionModel.getQuestion() + " - " + questionModel.getID());
+
+                }
+            }
+        }
+
+        DbQuery.userProfile.setBookmarksCount(DbQuery.bookmarkIdList.size());
     }
 
     @Override

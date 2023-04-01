@@ -4,11 +4,14 @@ public class ProfileModel {
     private String name;
     private String email;
     private String phone;
+    private int bookmarksCount;
 
-    public ProfileModel(String name, String email, String phone) {
+
+    public ProfileModel(String name, String email, String phone, int bookmarksCount) {
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.bookmarksCount = bookmarksCount;
     }
 
     public String getPhone() {
@@ -33,5 +36,13 @@ public class ProfileModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getBookmarksCount() {
+        return bookmarksCount;
+    }
+
+    public void setBookmarksCount(int bookmarksCount) {
+        this.bookmarksCount = bookmarksCount;
     }
 }

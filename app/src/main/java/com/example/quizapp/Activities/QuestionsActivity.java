@@ -68,6 +68,15 @@ public class QuestionsActivity extends AppCompatActivity {
 
         startTimer();
 
+        // for the first time show bookmark icon
+        if (DbQuery.questionModelList.get(questionID).isBookmarked()) {
+            imageMark.setVisibility(View.VISIBLE);
+            bookMarkImage.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.yellow)));
+        } else {
+            imageMark.setVisibility(View.GONE);
+            bookMarkImage.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.white)));
+        }
+
         //amountTime.setTextColor(getResources().getColorStateList(option_colors));
     }
 
@@ -160,6 +169,13 @@ public class QuestionsActivity extends AppCompatActivity {
                 submitTest();
             }
         });
+
+        bookMarkImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addToBookmark();
+            }
+        });
     }
 
     private void submitTest() {
@@ -249,6 +265,15 @@ public class QuestionsActivity extends AppCompatActivity {
                     bookMarkImage.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.white)));
                 }
 
+                // bookmark
+                if (DbQuery.questionModelList.get(questionID).isBookmarked()) {
+                    imageMark.setVisibility(View.VISIBLE);
+                    bookMarkImage.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.yellow)));
+                } else {
+                    imageMark.setVisibility(View.GONE);
+                    bookMarkImage.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.white)));
+                }
+
                 questionName.setText(String.valueOf(questionID + 1) + "/" + String.valueOf(DbQuery.questionModelList.size()));
             }
 
@@ -257,6 +282,16 @@ public class QuestionsActivity extends AppCompatActivity {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+    }
+
+    private void addToBookmark() {
+        if (DbQuery.questionModelList.get(questionID).isBookmarked()) {
+            DbQuery.questionModelList.get(questionID).setBookmarked(false);
+        } else {
+            DbQuery.questionModelList.get(questionID).setBookmarked(true);
+        }
+
+        setBookmark();
     }
 
     private void init() {
@@ -281,6 +316,7 @@ public class QuestionsActivity extends AppCompatActivity {
         categoryName.setText(DbQuery.listCategories.get(DbQuery.selectedCategoryIndex).getName());
 
         DbQuery.questionModelList.get(0).setStatus(DbQuery.UNANSWERED);
+
     }
 
     public void goToQuestion(int position) {
@@ -290,4 +326,5 @@ public class QuestionsActivity extends AppCompatActivity {
             drawer.closeDrawer(GravityCompat.END);
         }
     }
+
 }
