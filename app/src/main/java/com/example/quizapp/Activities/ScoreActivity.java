@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -77,6 +78,16 @@ public class ScoreActivity extends AppCompatActivity {
 //                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 //                transaction.replace(mainFrame.getId(), fragment);
 //                transaction.commit();
+
+                FrameLayout mainFrame = findViewById(R.id.mainFrame);
+//
+//                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                transaction.replace(mainFrame.getId(), new LeaderBordFragment());
+//                transaction.commit();
+
+
+                getSupportFragmentManager().beginTransaction()
+                        .add(android.R.id.content, new LeaderBordFragment()).commit();
             }
         });
 

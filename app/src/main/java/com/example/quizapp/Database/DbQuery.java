@@ -42,6 +42,7 @@ public class DbQuery {
     public static int selectedCategoryIndex = 0;
     public static int selectedTestIndex = 0;
     public static List<String> bookmarkIdList = new ArrayList<>();
+    public static List<QuestionModel> bookmarkList = new ArrayList<>();
     public static List<TestModel> testModelList = new ArrayList<>();
     public static ProfileModel userProfile = new ProfileModel("NAME USER", null, null, 0);
     public static List<QuestionModel> questionModelList = new ArrayList<>();
@@ -50,6 +51,7 @@ public class DbQuery {
     public static final int UNANSWERED = 1;
     public static final int ANSWERED = 2;
     public static final int REVIEW = 3;
+    private static int tmp = 0;
 
     public static void createUserData(String email, String name, CompleteListener listener) {
         Map<String, Object> userData = new ArrayMap<>();
@@ -424,7 +426,7 @@ public class DbQuery {
                 });
     }
 
-    public static void  getTopUsers(CompleteListener listener) {
+    public static void getTopUsers(CompleteListener listener) {
         usersList.clear();
 
         String userUID = FirebaseAuth.getInstance().getUid();
@@ -444,7 +446,6 @@ public class DbQuery {
                                     document.getString("NAME"),
                                     document.getLong("TOTAL_SCORE").intValue(),
                                     rank
-
                             ));
 
                             if (userUID.compareTo(document.getId()) == 0) {
@@ -516,6 +517,52 @@ public class DbQuery {
                 });
 
 
+    }
+
+    public static void loadBookmarks(CompleteListener listener) {
+        bookmarkList.clear();
+
+        for (int i=0; i < bookmarkIdList.size(); i++) {
+            String documentID = bookmarkIdList.get(i);
+
+            firestore.collection("QUESTIONS").document(documentID)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.exists()) {
+                                bookmarkList.add(new QuestionModel(
+                                        documentSnapshot.getId(),
+                                        documentSnapshot.getString("QUESTION"),
+                                        documentSnapshot.getString("A"),
+                                        documentSnapshot.getString("B"),
+                                        documentSnapshot.getString("C"),
+                                        documentSnapshot.getString("D"),
+                                        documentSnapshot.getLong("ANSWER").intValue(),
+                                        0,
+                                        -1,
+                                        false
+                                ));
+
+                            }
+
+                            tmp++;
+
+                            if (tmp == bookmarkIdList.size()) {
+                                listener.OnSuccess();
+                            }
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            listener.OnFailure();
+                        }
+                    });
+
+
+        }
     }
 
 }
